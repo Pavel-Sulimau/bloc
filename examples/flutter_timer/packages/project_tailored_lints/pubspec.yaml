@@ -1,0 +1,11 @@
+name: project_tailored_lints
+description: A set of tailored rules for our project and team conventions.
+version: 1.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  analyzer: ^6.2.0
+  analyzer_plugin: ^0.11.3
+  custom_lint_builder: ^0.5.3

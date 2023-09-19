@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_timer/ticker.dart';
 
 part 'timer_event.dart';
 part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-  TimerBloc({required Ticker ticker})
-      : _ticker = ticker,
-        super(const TimerInitial(_duration)) {
+  TimerBloc({required this.ticker}) : super(const TimerInitial(_duration)) {
     on<TimerStarted>(_onStarted);
     on<TimerPaused>(_onPaused);
     on<TimerResumed>(_onResumed);
@@ -18,10 +17,21 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     on<_TimerTicked>(_onTicked);
   }
 
-  final Ticker _ticker;
+  // Was made public for linter demo purposes.
+  final Ticker ticker;
   static const int _duration = 60;
 
+  int get notUsedPublicProp => _duration;
+
+  @visibleForTesting
+  int notUsedOpenOnlyForTestingField = 123;
+
+  @protected
+  int notUsedProtectedField = 456;
+
   StreamSubscription<int>? _tickerSubscription;
+
+  void notUsedPublicMethod() {}
 
   @override
   Future<void> close() {
@@ -32,7 +42,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   void _onStarted(TimerStarted event, Emitter<TimerState> emit) {
     emit(TimerRunInProgress(event.duration));
     _tickerSubscription?.cancel();
-    _tickerSubscription = _ticker
+    _tickerSubscription = ticker
         .tick(ticks: event.duration)
         .listen((duration) => add(_TimerTicked(duration: duration)));
   }

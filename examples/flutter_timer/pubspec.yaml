@@ -15,11 +15,15 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.0.0
+  custom_lint: ^0.5.3
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.0
+  project_tailored_lints:
+    path: packages/project_tailored_lints
 
 dependency_overrides:
+  analyzer: ^6.2.0
   bloc:
     path: ../../packages/bloc
   bloc_test:
